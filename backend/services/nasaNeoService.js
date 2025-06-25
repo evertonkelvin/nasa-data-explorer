@@ -1,6 +1,5 @@
 async function fetchNasaNeoData(params) {
   const url = `https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=${ process.env.NASA_API_KEY }`;
-  console.log("url ", url);
   
   try {
     const res = await fetch(url);
