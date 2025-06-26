@@ -1,9 +1,14 @@
 import { useEffect, useState } from 'react';
 import { getDiameterChartData } from '../services/api';
 import { Bar } from 'react-chartjs-2';
-import { Chart, BarElement } from 'chart.js';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+} from 'chart.js';
 
-Chart.register(BarElement);
+ChartJS.register(CategoryScale, LinearScale, BarElement);
     
 export default function Dashboard() {
   const [diameterChartData, setDiameterChartData] = useState([]);
@@ -19,7 +24,7 @@ export default function Dashboard() {
            labels: diameterChartRes.map((d) => d.range),
             datasets: [
               {
-                label: 'Objects',
+                label: 'Asteroids',
                 data: diameterChartRes.map((d) => d.count),
                 backgroundColor: '#00d9ff',
               },
@@ -35,23 +40,15 @@ export default function Dashboard() {
     loadDiameterChartData();
   }, []);
 
-  const barOptions = {
-    plugins: {
-      tooltip: {
-        callbacks: {
-          label: (ctx) => `${ctx.parsed.y} objects`,
-        },
-      },
-    },
-  };
-
   return(
     <div className="dashboard">
-      <h1>Dashboard</h1>
+      <h1>NASA NEO Dashboard</h1>
       <div className="charts">
         <div className="chart">
-          <h3>Objects by Diameter</h3>
-          <Bar data={diameterChartData} options={barOptions} />
+          <h3>Asteroids by Diameter</h3>
+          {loading
+            ? <p>Loading...</p>
+            : <Bar data={diameterChartData} />}
         </div>
       </div>
     </div>
