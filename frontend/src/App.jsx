@@ -1,6 +1,7 @@
 import './App.css';
 import { useEffect, useState } from 'react';
 import { getAllNasaNeoData } from './services/api';
+import AsteroidCard from './components/AsteroidCard';
 
 function App() {
 
@@ -12,9 +13,9 @@ function App() {
     const loadNasaNeoData = async () => {
       try {
         const neoData = await getAllNasaNeoData();
-        setNasaNeoData(neoData);
+        setNasaNeoData(neoData.near_earth_objects);
       } catch (err) {
-          setError("Failed to load data");
+          setError(`Failed to load data: ${err.message}`);
       } finally {
           setLoading(false);
       }
@@ -25,6 +26,12 @@ function App() {
 
   return (
     <>
+      <h1>NASA Near Earth Objects</h1>
+      <div className="container">
+        {nasaNeoData.map((asteroid) => (
+          <AsteroidCard key={asteroid.id} asteroid={asteroid} />
+        ))}
+      </div>
     </>
   )
 }
