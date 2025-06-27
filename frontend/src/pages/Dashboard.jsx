@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getDiameterChartData } from '../services/api';
-import { getDiscoveryChartData } from '../services/api';
+import { getDiameterChartData, getDiscoveryChartData, getStatsData } from '../services/api';
 import { Bar, Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -22,6 +21,7 @@ ChartJS.register(
 export default function Dashboard() {
   const [diameterChartData, setDiameterChartData] = useState([]);
   const [discoveryChartData, setDiscoveryChartData] = useState([]);
+  const [statsData, setStatsData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   
@@ -30,6 +30,7 @@ export default function Dashboard() {
       try {
         const diameterChartRes = await getDiameterChartData();
         const discoveryChartRes = await getDiscoveryChartData();
+        const statsRes = await getStatsData();
         
         setDiameterChartData({
           labels: diameterChartRes.map((d) => d.range),
@@ -54,6 +55,8 @@ export default function Dashboard() {
           ],
         });
 
+        setStatsData(statsRes);
+
       } catch (err) {
           setError(`Failed to load data: ${err.message}`);
       } finally {
@@ -65,22 +68,37 @@ export default function Dashboard() {
   }, []);
 
   return(
-    <div className="dashboard">
-      <h1>NASA NEO Dashboard</h1>
-      <div className="charts">
-        <div className="chart">
-          <h3>Asteroids by Diameter</h3>
-          {loading
-            ? <p>Loading...</p>
-            : <Bar data={diameterChartData} />}
+    <>
+    {loading
+      ? <p>Loading...</p>
+      : <div className="dashboard">
+          <h1>NASA NEO Dashboard</h1>
+          <div className="stats">
+            <div className="stat">
+              <h2>{statsData.total}</h2>
+              <p>Total Objects</p>
+            </div>
+            <div className="stat">
+              <h2>{statsData.hazardous}</h2>
+              <p>Hazardous Objects</p>
+            </div>
+            <div className="stat">
+              <h2>{statsData.sentry}</h2>
+              <p>Sentry Objects</p>
+            </div>
+          </div>
+          <div className="charts">
+            <div className="chart">
+              <h3>Asteroids by Diameter</h3>
+              <Bar data={diameterChartData} />
+            </div>
+            <div className="chart">
+              <h3>New Discoveries Over Time</h3>
+              <Line data={discoveryChartData} />
+            </div>
+          </div>
         </div>
-        <div className="chart">
-          <h3>New Discoveries Over Time</h3>
-          {loading
-            ? <p>Loading...</p>
-            : <Line data={discoveryChartData} />}
-        </div>
-      </div>
-    </div>
+    }
+    </>
   );
 }

@@ -17,3 +17,9 @@ export const getDiscoveryChartData = async () => {
   const data = await res.json();
   return data;
 }
+
+export const getStatsData = async () => {
+  const res = await fetch(`${BASE_URL}/api/stats`);
+  const data = await res.json();
+  return data;
+}
