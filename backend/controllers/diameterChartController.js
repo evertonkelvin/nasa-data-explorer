@@ -8,8 +8,8 @@ export async function getDiameterChartData(req, res, next) {
 
   try {
     const data = await fetchNasaNeoData(req.query);
-    
     const asteroids = data.near_earth_objects;
+    
     const diameterBuckets = {
       '<3 km': 0,
       '3-6 km': 0,
