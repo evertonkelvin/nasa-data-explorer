@@ -4,9 +4,8 @@ import nasaRoutes from './routes/nasaRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 
 const app = express();
-const PORT = 3000;
 
-app.use(cors('http://localhost:5173/'));
+app.use(cors(process.env.FRONTEND_LINK || 'http://localhost:5173/'));
 app.use(express.json());
 
 app.use('/nasa', nasaRoutes);
@@ -16,6 +15,6 @@ app.get('/', (req, res) => {
   res.send('NASA Express API is running');
 })
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(process.env.PORT || 3000, () => {
+  console.log(`Server is running on port ${process.env.PORT || 3000}`);
 })
