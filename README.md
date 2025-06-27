@@ -26,6 +26,8 @@ npm start
 
 The backend will be available at http://localhost:3000.
 
+---
+
 ## Frontend Setup (Vite + React)
 
 1. Go to the frontend directory:
