@@ -1,20 +1,5 @@
 # NASA Data Explorer
 
-## Pré-requisitos
-
-- Node.js (v16 ou superior)
-
----
-
-## Backend Setup (Express)
-
-1. Navegue até a pasta do backend:  
-   ```bash
-   cd backend
-
-
-# NASA Data Explorer
-
 ## Prerequisites
 - Node.js (v16 or higher)
 
