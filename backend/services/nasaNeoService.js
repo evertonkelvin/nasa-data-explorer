@@ -1,4 +1,8 @@
+let cachedData = null;
+
 async function fetchNasaNeoData(params) {
+  if(cachedData) return cachedData;
+  
   const url = `https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=${ process.env.NASA_API_KEY }`;
   
   try {
@@ -9,6 +13,7 @@ async function fetchNasaNeoData(params) {
     }
 
     const neoData = await res.json();
+    cachedData = neoData;
     return neoData;
 
   } catch (err) {

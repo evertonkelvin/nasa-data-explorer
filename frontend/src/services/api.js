@@ -5,3 +5,21 @@ export const getAllNasaNeoData = async () => {
   const data = await res.json();
   return data;
 }
+
+export const getDiameterChartData = async () => {
+  const res = await fetch(`${BASE_URL}/api/diameter-chart`);
+  const data = await res.json();
+  return data;
+}
+
+export const getDiscoveryChartData = async () => {
+  const res = await fetch(`${BASE_URL}/api/discovery-chart`);
+  const data = await res.json();
+  return data;
+}
+
+export const getStatsData = async () => {
+  const res = await fetch(`${BASE_URL}/api/stats`);
+  const data = await res.json();
+  return data;
+}
