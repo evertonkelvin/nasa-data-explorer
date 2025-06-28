@@ -67,38 +67,41 @@ export default function Dashboard() {
     loadChartsData();
   }, []);
 
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="error">Error: {error}</div>;
+  }
+
   return(
-    <>
-    {loading
-      ? <p>Loading...</p>
-      : <div className="dashboard">
-          <h1>NASA NEO Dashboard</h1>
-          <div className="stats">
-            <div className="stat">
-              <h2>{statsData.total}</h2>
-              <p>Total Objects</p>
-            </div>
-            <div className="stat">
-              <h2>{statsData.hazardous}</h2>
-              <p>Hazardous Objects</p>
-            </div>
-            <div className="stat">
-              <h2>{statsData.sentry}</h2>
-              <p>Sentry Objects</p>
-            </div>
-          </div>
-          <div className="charts">
-            <div className="chart">
-              <h3>Asteroids by Diameter</h3>
-              <Bar data={diameterChartData} />
-            </div>
-            <div className="chart">
-              <h3>New Discoveries Over Time</h3>
-              <Line data={discoveryChartData} />
-            </div>
-          </div>
+    <div className="dashboard">
+      <h1>NASA NEO Dashboard</h1>
+      <div className="stats">
+        <div className="stat">
+          <h2>{statsData.total}</h2>
+          <p>Total Objects</p>
         </div>
-    }
-    </>
+        <div className="stat">
+          <h2>{statsData.hazardous}</h2>
+          <p>Hazardous Objects</p>
+        </div>
+        <div className="stat">
+          <h2>{statsData.sentry}</h2>
+          <p>Sentry Objects</p>
+        </div>
+      </div>
+      <div className="charts">
+        <div className="chart">
+          <h3>Asteroids by Diameter</h3>
+          <Bar data={diameterChartData} />
+        </div>
+        <div className="chart">
+          <h3>New Discoveries Over Time</h3>
+          <Line data={discoveryChartData} />
+        </div>
+      </div>
+    </div>
   );
 }
