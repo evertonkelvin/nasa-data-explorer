@@ -6,6 +6,8 @@ export default function AsteroidList() {
   const [nasaNeoData, setNasaNeoData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [nameSearch, setNameSearch] = useState('');
+  const [showHazardous, setShowHazardous] = useState(false);
 
   useEffect(() => {
     const loadNasaNeoData = async () => {
@@ -22,11 +24,43 @@ export default function AsteroidList() {
     loadNasaNeoData();
   }, []);
 
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="error">Error: {error}</div>;
+  }
+
+  const filteredAsteroids = nasaNeoData
+    .filter((asteroid) =>
+      asteroid.name.toLowerCase().includes(nameSearch.toLowerCase())
+    )
+    .filter((asteroid) =>
+      !showHazardous || asteroid.is_potentially_hazardous_asteroid
+    );
+  
   return (
     <>
       <h1>NASA Near Earth Objects</h1>
+      <div className="filters">
+        <input
+          type="text"
+          placeholder="Search by name"
+          value={nameSearch}
+          onChange={(e) => setNameSearch(e.target.value)}
+        />
+        <label>
+          <input
+            type="checkbox"
+            checked={showHazardous}
+            onChange={(e) => setShowHazardous(e.target.checked)}
+          />
+          Hazardous asteroids
+        </label>
+      </div>
       <div className="container">
-        {nasaNeoData.map((asteroid) => (
+        {filteredAsteroids.map((asteroid) => (
           <AsteroidCard key={asteroid.id} asteroid={asteroid} />
         ))}
       </div>
