@@ -145,7 +145,30 @@ h1 {
   transform: scale(1.05);
 }
 
-.card a {
+a {
   color: #00d9ff;
   text-decoration: none;
+}
+
+.details {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.details button {
+  margin-bottom: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+  border-radius: 8px;
+  padding: 10px 20px;
+  box-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+  transition: transform 0.3s ease;
+  color: #00d9ff;
+  cursor: pointer;
+}
+
+.details button:hover {
+  transform: scale(1.05);
 }
