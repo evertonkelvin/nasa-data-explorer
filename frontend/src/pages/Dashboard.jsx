@@ -58,7 +58,7 @@ export default function Dashboard() {
         setStatsData(statsRes);
 
       } catch (err) {
-          setError(`Failed to load data: ${err.message}`);
+          setError('Failed to load data');
       } finally {
           setLoading(false);
       }

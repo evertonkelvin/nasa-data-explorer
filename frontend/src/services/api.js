@@ -1,25 +1,16 @@
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
-export const getAllNasaNeoData = async () => {
-  const res = await fetch(`${BASE_URL}/nasa/neo`);
-  const data = await res.json();
-  return data;
+async function fetchData(path) {
+  const res = await fetch(`${BASE_URL}${path}`);
+
+  if (!res.ok) {
+    throw new Error('Failed to load API data.');
+  }
+
+  return res.json();
 }
 
-export const getDiameterChartData = async () => {
-  const res = await fetch(`${BASE_URL}/api/diameter-chart`);
-  const data = await res.json();
-  return data;
-}
-
-export const getDiscoveryChartData = async () => {
-  const res = await fetch(`${BASE_URL}/api/discovery-chart`);
-  const data = await res.json();
-  return data;
-}
-
-export const getStatsData = async () => {
-  const res = await fetch(`${BASE_URL}/api/stats`);
-  const data = await res.json();
-  return data;
-}
+export const getAllNasaNeoData = () => fetchData('/nasa/neo');
+export const getDiameterChartData = () => fetchData('/api/diameter-chart');
+export const getDiscoveryChartData = () => fetchData('/api/discovery-chart');
+export const getStatsData = () => fetchData('/api/stats');
