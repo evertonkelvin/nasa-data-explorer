@@ -1,24 +1,40 @@
 let cachedData = null;
 
-async function fetchNasaNeoData(params) {
-  if(cachedData) return cachedData;
-  
-  const url = `https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=${ process.env.NASA_API_KEY || 'DEMO_KEY' }`;
-  
-  try {
-    const res = await fetch(url);
-    
-    if (!res.ok) {
-      throw new Error(`Response status: ${res.status}`);
-    }
+export async function fetchNasaNeoData() {
+  if(cachedData) {
+    return cachedData;
+  }
 
-    const neoData = await res.json();
-    cachedData = neoData;
-    return neoData;
+  try {
+    const pages = [0, 1, 2, 3, 4];
+    const responses = await Promise.all(
+      pages.map((page) =>
+        fetch(
+          `https://api.nasa.gov/neo/rest/v1/neo/browse?page=${page}&size=20&api_key=${ process.env.NASA_API_KEY || 'DEMO_KEY' }`
+        )
+      )
+    );
+
+    const neoData = await Promise.all(
+      responses.map((res) => {
+        if (!res.ok) {
+          throw new Error(`NASA API responded with ${res.status}`);
+        }
+        
+        return res.json();
+      })
+    );
+    
+    cachedData = neoData.flatMap((d) => d.near_earth_objects || []);;
+    return cachedData;
 
   } catch (err) {
-    return err.message
+    console.error(err);
+    throw new Error('Failed to fetch NASA NEO data.');
   }
 }
 
-export default fetchNasaNeoData;
+export function bucketToArray(obj, labelKey) {
+  return Object.keys(obj).map(key => ({ [labelKey]: key, count: obj[key] }));
+}
+

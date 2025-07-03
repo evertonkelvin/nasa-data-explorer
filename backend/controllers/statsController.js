@@ -1,10 +1,9 @@
-import fetchNasaNeoData from '../services/nasaNeoService.js';
+import { fetchNasaNeoData } from '../services/nasaNeoService.js';
 
 export async function getStatsData(req, res, next) {
 
   try {
-    const data = await fetchNasaNeoData(req.query);
-    const asteroids = data.near_earth_objects;
+    const asteroids = await fetchNasaNeoData();
     
     const stats = {
       total: asteroids.length,
