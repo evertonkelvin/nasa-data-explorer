@@ -93,15 +93,24 @@ h1 {
 }
 
 .filters {
+  position: relative;
   display: flex;
-  justify-content: center;
+  align-items: center;
   gap: 20px;
-  padding: 10px 20px;
-  margin-bottom: 20px;
+  padding: 15px;
+  margin: 20px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   backdrop-filter: blur(5px);
+}
+
+.filter-controls {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
 }
 
 .filters input[type="text"] {

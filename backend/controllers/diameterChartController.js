@@ -1,14 +1,9 @@
-import fetchNasaNeoData from '../services/nasaNeoService.js';
-
-function bucketToArray(obj, labelKey) {
-  return Object.keys(obj).map(key => ({ [labelKey]: key, count: obj[key] }));
-}
+import { fetchNasaNeoData, bucketToArray } from '../services/nasaNeoService.js';
 
 export async function getDiameterChartData(req, res, next) {
 
   try {
-    const data = await fetchNasaNeoData(req.query);
-    const asteroids = data.near_earth_objects;
+    const asteroids = await fetchNasaNeoData();
     
     const diameterBuckets = {
       '<3 km': 0,
